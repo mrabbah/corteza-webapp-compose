@@ -86,4 +86,20 @@ export default {
       },
     },
   ],
+
+  events: {
+    onSelect (el, typeOfEvent) {
+      // cmp that emitted the event
+      // emitted value
+      // type of emitted event
+      console.log('element', el)
+      console.log('type of event', typeOfEvent)
+    },
+    onCheck () {
+
+    },
+    onClick () {
+
+    },
+  },
 }
