@@ -71,6 +71,7 @@
       <b-form-checkbox
         v-model="value.isRequired"
         :disabled="!value.cap.required"
+        switch
       />
     </td>
     <td
@@ -88,6 +89,7 @@
       <b-form-checkbox
         v-model="value.isSensitive"
         :disabled="!value.cap.sensitive"
+        switch
       />
     </td>
     <td
