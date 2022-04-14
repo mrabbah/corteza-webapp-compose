@@ -2,6 +2,7 @@
 import { default as component } from './EditorToolbar.vue'
 import { components } from '@cortezaproject/corteza-vue'
 const { checkbox } = components.C3.controls
+// const { click } = components.C3.events
 
 const props = {
   backLink: {},
@@ -23,18 +24,14 @@ export default {
   ],
 
   events: {
-    onSelect (el, typeOfEvent) {
-      // cmp that emitted the event
-      // emitted value
-      // type of emitted event
-      console.log('element', el)
-      console.log('type of event', typeOfEvent)
-    },
-    onCheck () {
+    // click () {
 
-    },
-    onClick () {
+    // },
+    // onCheck () {
 
-    },
+    // },
+    // onClick () {
+
+    // },
   },
 }

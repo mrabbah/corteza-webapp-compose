@@ -54,7 +54,7 @@
           variant="light"
           size="lg"
           class="ml-2"
-          @click="$emit('clone')"
+          @click="onClone($event)"
         >
           {{ $t('label.clone') }}
         </b-button>
@@ -85,11 +85,17 @@
   </b-container>
 </template>
 <script>
+// import { components } from '@cortezaproject/corteza-vue'
+// const { click } = components.C3.events
 
 export default {
   i18nOptions: {
     namespaces: 'general',
   },
+
+  // components: {
+  //   click,
+  // },
 
   inheritAttrs: true,
 
@@ -130,6 +136,14 @@ export default {
       type: String,
       required: false,
       default: '',
+    },
+  },
+
+  methods: {
+    onClone (e) {
+      console.log(e.target.localName)
+      // click(e.target.localName)
+      this.$emit('clone')
     },
   },
 }
