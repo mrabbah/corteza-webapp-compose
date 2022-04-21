@@ -45,6 +45,16 @@
             v-model="report.yAxis.label"
             :placeholder="$t('edit.yAxis.labelPlaceholder')"
           />
+          <b-input-group-append>
+            <chart-translator
+              :field.sync="report.yAxis.label"
+              :chart="chart"
+              :report="report"
+              :disabled="isNew"
+              highlight-key="label"
+              button-variant="light"
+            />
+          </b-input-group-append>
         </b-form-group>
 
         <b-form-group
@@ -226,7 +236,8 @@
 
 <script>
 import ReportEdit from './ReportEdit'
-import { compose } from '@cortezaproject/corteza-js'
+import ChartTranslator from 'corteza-webapp-compose/src/components/Chart/ChartTranslator'
+import { compose, NoID } from '@cortezaproject/corteza-js'
 import base from './base'
 
 const ignoredCharts = [
@@ -241,9 +252,17 @@ export default {
 
   components: {
     ReportEdit,
+    ChartTranslator,
   },
 
   extends: base,
+
+  props: {
+    chart: {
+      type: compose.Chart,
+      required: true,
+    },
+  },
 
   data () {
     return {
@@ -268,6 +287,10 @@ export default {
         { text: this.$t('edit.metric.lineTension.medium'), value: 0.4 },
         { text: this.$t('edit.metric.lineTension.curvy'), value: 0.6 },
       ]
+    },
+
+    isNew () {
+      return this.chart.chartID === NoID
     },
   },
 
