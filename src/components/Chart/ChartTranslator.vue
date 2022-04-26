@@ -2,6 +2,7 @@
   <c-translator-button
     v-if="canManageResourceTranslations && resourceTranslationsEnabled"
     v-bind="$props"
+    class="ml-auto py-1 px-3"
     :resource="resource"
     :titles="titles"
     :fetcher="fetcher"
@@ -35,11 +36,11 @@ export default {
       required: true,
     },
 
-    report: {
-      type: Object,
-      default: () => ({}),
-      required: true,
-    },
+    // report: {
+    //   type: Object,
+    //   default: () => ({}),
+    //   required: true,
+    // },
 
     // highlights selected string
     highlightKey: {
@@ -47,20 +48,15 @@ export default {
       default: '',
     },
 
-    buttonVariant: {
-      type: String,
-      default: () => 'primary',
-    },
+    // buttonVariant: {
+    //   type: String,
+    //   default: () => 'primary',
+    // },
 
-    buttonClass: {
-      type: String,
-      default: () => { return '' },
-    },
-
-    size: {
-      type: String,
-      default: 'md',
-    },
+    // buttonClass: {
+    //   type: String,
+    //   default: () => { return '' },
+    // },
 
     disabled: {
       type: Boolean,
@@ -80,73 +76,75 @@ export default {
     // key of the string to be translated
     resource () {
       const { namespaceID, chartID } = this.chart
-      const { moduleID } = this.report
-      return `compose:chart/${namespaceID}/${moduleID}/${chartID}`
+      return `compose:chart/${namespaceID}/${chartID}`
     },
 
     // contains all of the translations for a single string;
     // for the different languages
-    // titles () {
-    // const { moduleID, handle, namespaceID, fields } = this.module
-    // const titles = {}
+    titles () {
+      return {}
+      // const { chartID, handle } = this.chart
+      // const titles = {}
 
-    // titles[this.resource] = this.$t('title', { handle: handle || moduleID })
+      // titles[this.resource] = this.$t('title', { handle: handle || chartID })
 
-    // fields.forEach(({ fieldID, name }) => {
-    //   titles[`compose:module-field/${namespaceID}/${moduleID}/${fieldID}`] = this.$t('field.title', { name })
-    // })
+      // maybe I won;t need this
+      // fields.forEach(({ chartID, name }) => {
+      //   titles[`compose:chart/${namespaceID}/${chartID}`] = this.$t('chart.title', { name })
+      // })
 
-    // return titles
-    // },
+      // return titles
+    },
 
     // fetches translations
-    // fetcher () {
-    // const { namespaceID, chartID } = this.chart
-    // const { moduleID } = this.report
+    fetcher () {
+      return false
 
-    // return () => {
-    //   return this.$ComposeAPI.moduleListTranslations({ namespaceID, moduleID })
-    //   // @todo pass set of translations to the resource object
-    //   // The logic there needs to be implemented; the idea is to decode
-    //   // values from the resource object to the set of translations)
-    // }
-    // },
+      // const { namespaceID, chartID } = this.chart
+
+      // return () => {
+      //   return this.$ComposeAPI.chartListTranslations({ namespaceID, chartID })
+      //   // @todo pass set of translations to the resource object
+      //   // The logic there needs to be implemented; the idea is to decode
+      //   // values from the resource object to the set of translations)
+    },
 
     // updates translations
-    // updater () {
-    // const { moduleID, namespaceID, chartID } = this.chart
+    updater () {
+      return false
+      // const { namespaceID, chartID } = this.chart
 
-    // return translations => {
-    //   return this.$ComposeAPI
-    //     .moduleUpdateTranslations({ namespaceID, moduleID, translations })
-    //     // re-fetch translations, sanitized and stripped
-    //     .then(() => this.fetcher())
-    //     .then((translations) => {
-    //       // When translations are successfully saved,
-    //       // scan changes and apply them back to the passed object
-    //       // not the most elegant solution but is saves us from
-    //       // handling the resource on multiple places
-    //       //
-    //       //
-    //       // @todo move this to Namespace* classes
-    //       // the logic there needs to be implemented; the idea is to encode
-    //       // values from the set of translations back to the resource object
-    //       const find = (key) => {
-    //         return translations.find(t => t.key === key && t.lang === this.currentLanguage && t.resource === this.resource)
-    //       }
+      // return translations => {
+      //   return this.$ComposeAPI
+      //     .chartUpdateTranslations({ namespaceID, translations })
+      //     // re-fetch translations, sanitized and stripped
+      //     .then(() => this.fetcher())
+      //     .then((translations) => {
+      //       // When translations are successfully saved,
+      //       // scan changes and apply them back to the passed object
+      //       // not the most elegant solution but is saves us from
+      //       // handling the resource on multiple places
+      //       //
+      //       //
+      //       // @todo move this to Namespace* classes
+      //       // the logic there needs to be implemented; the idea is to encode
+      //       // values from the set of translations back to the resource object
+      //       const find = (key) => {
+      //         return translations.find(t => t.key === key && t.lang === this.currentLanguage && t.resource === this.resource)
+      //       }
 
-    //       const tr = find('name')
-    //       if (tr !== undefined) {
-    //         this.module.name = tr.message
-    //       }
+      //       const tr = find('name')
+      //       if (tr !== undefined) {
+      //         this.chart.name = tr.message
+      //       }
 
-    //       return this.module
-    //     })
-    //     .then(module => {
-    //       this.$emit('update:module', module)
-    //     })
-    // }
-    // },
+      //       return this.chart
+      //     })
+      //     .then(chart => {
+      //       this.$emit('update:chart', chart)
+      //     })
+      // }
+    },
   },
 }
 </script>

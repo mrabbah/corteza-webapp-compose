@@ -41,20 +41,21 @@
           breakpoint="md"
           :label="$t('edit.yAxis.labelLabel')"
         >
-          <b-form-input
-            v-model="report.yAxis.label"
-            :placeholder="$t('edit.yAxis.labelPlaceholder')"
-          />
-          <b-input-group-append>
-            <chart-translator
-              :field.sync="report.yAxis.label"
-              :chart="chart"
-              :report="report"
-              :disabled="isNew"
-              highlight-key="label"
-              button-variant="light"
+          <b-input-group>
+            <b-form-input
+              v-model="report.yAxis.label"
+              :placeholder="$t('edit.yAxis.labelPlaceholder')"
             />
-          </b-input-group-append>
+            <b-input-group-append>
+              <chart-translator
+                :field.sync="report.yAxis.label"
+                :chart="chart"
+                :disabled="isNew"
+                highlight-key="label"
+                button-variant="light"
+              />
+            </b-input-group-append>
+          </b-input-group>
         </b-form-group>
 
         <b-form-group
