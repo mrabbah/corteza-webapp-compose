@@ -28,7 +28,7 @@ export default {
   props: {
     field: {
       type: String,
-      required: true,
+      default: '',
     },
 
     chart: {
@@ -82,68 +82,70 @@ export default {
     // contains all of the translations for a single string;
     // for the different languages
     titles () {
-      return {}
-      // const { chartID, handle } = this.chart
-      // const titles = {}
+      const { chartID, handle } = this.chart
+      const titles = {}
 
-      // titles[this.resource] = this.$t('title', { handle: handle || chartID })
+      titles[this.resource] = this.$t('title', { handle: handle || chartID })
 
       // maybe I won;t need this
       // fields.forEach(({ chartID, name }) => {
       //   titles[`compose:chart/${namespaceID}/${chartID}`] = this.$t('chart.title', { name })
       // })
 
-      // return titles
+      return titles
     },
 
     // fetches translations
     fetcher () {
-      return false
+      const { namespaceID, chartID } = this.chart
 
-      // const { namespaceID, chartID } = this.chart
-
-      // return () => {
-      //   return this.$ComposeAPI.chartListTranslations({ namespaceID, chartID })
-      //   // @todo pass set of translations to the resource object
-      //   // The logic there needs to be implemented; the idea is to decode
-      //   // values from the resource object to the set of translations)
+      return () => {
+        return this.$ComposeAPI.chartListTranslations({ namespaceID, chartID })
+          // .then(result => {
+          //   debugger
+          //   const key = result.key
+          // })
+        // @todo pass set of translations to the resource object
+        // The logic there needs to be implemented; the idea is to decode
+        // values from the resource object to the set of translations)
+      }
     },
 
     // updates translations
     updater () {
-      return false
-      // const { namespaceID, chartID } = this.chart
+      // return false
+      const { namespaceID, chartID } = this.chart
 
-      // return translations => {
-      //   return this.$ComposeAPI
-      //     .chartUpdateTranslations({ namespaceID, translations })
-      //     // re-fetch translations, sanitized and stripped
-      //     .then(() => this.fetcher())
-      //     .then((translations) => {
-      //       // When translations are successfully saved,
-      //       // scan changes and apply them back to the passed object
-      //       // not the most elegant solution but is saves us from
-      //       // handling the resource on multiple places
-      //       //
-      //       //
-      //       // @todo move this to Namespace* classes
-      //       // the logic there needs to be implemented; the idea is to encode
-      //       // values from the set of translations back to the resource object
-      //       const find = (key) => {
-      //         return translations.find(t => t.key === key && t.lang === this.currentLanguage && t.resource === this.resource)
-      //       }
+      return translations => {
+        return this.$ComposeAPI
+          .chartUpdateTranslations({ namespaceID, chartID, translations })
+          // re-fetch translations, sanitized and stripped
+          .then(() => this.fetcher())
+          .then((translations) => {
+            // When translations are successfully saved,
+            // scan changes and apply them back to the passed object
+            // not the most elegant solution but is saves us from
+            // handling the resource on multiple places
+            //
+            //
+            // @todo move this to Namespace* classes
+            // the logic there needs to be implemented; the idea is to encode
+            // values from the set of translations back to the resource object
+            const find = (key) => {
+              return translations.find(t => t.key === key && t.lang === this.currentLanguage && t.resource === this.resource)
+            }
 
-      //       const tr = find('name')
-      //       if (tr !== undefined) {
-      //         this.chart.name = tr.message
-      //       }
+            const tr = find('name')
+            if (tr !== undefined) {
+              this.chart.name = tr.message
+            }
 
-      //       return this.chart
-      //     })
-      //     .then(chart => {
-      //       this.$emit('update:chart', chart)
-      //     })
-      // }
+            return this.chart
+          })
+          .then(chart => {
+            this.$emit('update:chart', chart)
+          })
+      }
     },
   },
 }
