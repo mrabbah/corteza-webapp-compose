@@ -412,6 +412,10 @@ export default {
     },
   },
 
+  mounted () {
+    document.title = 'Namespace Edit'
+  },
+
   methods: {
     async fetchNamespace () {
       this.processing = true

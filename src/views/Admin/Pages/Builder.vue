@@ -323,6 +323,10 @@ export default {
     },
   },
 
+  mounted () {
+    document.title = 'Page Builder'
+  },
+
   methods: {
     ...mapActions({
       findPageByID: 'page/findByID',

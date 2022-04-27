@@ -226,6 +226,10 @@ export default {
     }).catch(this.toastErrorHandler(this.$t('notification:page.loadFailed')))
   },
 
+  mounted () {
+    document.title = 'Pages Edit'
+  },
+
   methods: {
     ...mapActions({
       findPageByID: 'page/findByID',

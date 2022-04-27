@@ -67,5 +67,9 @@ export default {
       return undefined
     },
   },
+
+  mounted () {
+    document.title = 'Page View'
+  },
 }
 </script>
