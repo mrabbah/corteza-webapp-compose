@@ -107,9 +107,20 @@
         breakpoint="md"
         :label="$t('edit.metric.labelLabel')"
       >
-        <b-form-input
-          v-model="metric.label"
-        />
+        <b-input-group>
+          <b-form-input
+            v-model="metric.label"
+          />
+          <b-input-group-append>
+            <chart-translator
+              :field.sync="metric.label"
+              :chart="chart"
+              :disabled="isNew"
+              highlight-key="label"
+              button-variant="light"
+            />
+          </b-input-group-append>
+        </b-input-group>
       </b-form-group>
 
       <b-form-group

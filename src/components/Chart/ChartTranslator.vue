@@ -108,10 +108,14 @@ export default {
               return translations.find(t => t.key === key && t.lang === this.currentLanguage && t.resource === this.resource)
             }
 
-            // change accordingly and add
-            // another block of code for the
-            // metric label
-            const tr = find('name')
+            let tr
+
+            tr = find('y-axis')
+            if (tr !== undefined) {
+              this.chart.name = tr.message
+            }
+
+            tr = find('metric')
             if (tr !== undefined) {
               this.chart.name = tr.message
             }
