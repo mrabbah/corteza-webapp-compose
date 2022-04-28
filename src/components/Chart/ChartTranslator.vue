@@ -36,27 +36,10 @@ export default {
       required: true,
     },
 
-    // report: {
-    //   type: Object,
-    //   default: () => ({}),
-    //   required: true,
-    // },
-
-    // highlights selected string
     highlightKey: {
       type: String,
       default: '',
     },
-
-    // buttonVariant: {
-    //   type: String,
-    //   default: () => 'primary',
-    // },
-
-    // buttonClass: {
-    //   type: String,
-    //   default: () => { return '' },
-    // },
 
     disabled: {
       type: Boolean,
@@ -73,14 +56,11 @@ export default {
       return this.can('compose/', 'resource-translations.manage')
     },
 
-    // key of the string to be translated
     resource () {
       const { namespaceID, chartID } = this.chart
       return `compose:chart/${namespaceID}/${chartID}`
     },
 
-    // contains all of the translations for a single string;
-    // for the different languages
     titles () {
       const { chartID, handle } = this.chart
       const titles = {}
@@ -95,25 +75,18 @@ export default {
       return titles
     },
 
-    // fetches translations
     fetcher () {
       const { namespaceID, chartID } = this.chart
 
       return () => {
         return this.$ComposeAPI.chartListTranslations({ namespaceID, chartID })
-          // .then(result => {
-          //   debugger
-          //   const key = result.key
-          // })
         // @todo pass set of translations to the resource object
         // The logic there needs to be implemented; the idea is to decode
         // values from the resource object to the set of translations)
       }
     },
 
-    // updates translations
     updater () {
-      // return false
       const { namespaceID, chartID } = this.chart
 
       return translations => {
@@ -135,6 +108,9 @@ export default {
               return translations.find(t => t.key === key && t.lang === this.currentLanguage && t.resource === this.resource)
             }
 
+            // change accordingly and add
+            // another block of code for the
+            // metric label
             const tr = find('name')
             if (tr !== undefined) {
               this.chart.name = tr.message
