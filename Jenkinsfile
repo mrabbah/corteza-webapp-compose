@@ -8,15 +8,13 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                // sh 'yarn install'
-                // sh 'yarn test:unit'
-                sh 'echo test'
+                sh 'yarn install'
+                sh 'yarn test:unit'
             }
         }
         stage('Build') {
             steps {
-                //sh 'yarn build'
-                sh 'echo build'
+                sh 'yarn build'
             }
         }
         stage('Publish') {
@@ -24,8 +22,7 @@ pipeline {
                 NEXUS_CREDS = credentials('nexus-credentials')
             }
             steps {
-                // sh 'tar -C $PWD/dist -czf corteza-webapp-compose-${GIT_BRANCH}.tar.gz $PWD/dist'
-                sh 'touch corteza-webapp-compose-${BRANCH_NAME}.tar.gz'
+                sh 'tar -C $PWD/dist -czf corteza-webapp-compose-${BRANCH_NAME}.tar.gz $PWD/dist'
                 sh 'curl -v --user $NEXUS_CREDS --upload-file ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz https://nexus.rabbahsoft.ma/repository/row-repo/corteza-webapp-compose-${BRANCH_NAME}.tar.gz'
             }
         }
