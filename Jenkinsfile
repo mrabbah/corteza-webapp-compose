@@ -2,6 +2,9 @@ pipeline {
     agent {
         docker { image 'node:16.16.0' }
     }
+    environment {
+        BRANCH_NAME = "${GIT_BRANCH.split('/').size() > 1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
+    }
     stages {
         stage('Test') {
             steps {
@@ -21,11 +24,11 @@ pipeline {
             }
             steps {
                 // sh 'tar -C $PWD/dist -czf corteza-webapp-compose-${GIT_BRANCH}.tar.gz $PWD/dist'
-                sh 'touch corteza-webapp-compose-${GIT_BRANCH}.tar.gz'
+                sh 'echo $NEXUS_CREDS'
+                sh 'touch corteza-webapp-compose-${BRANCH_NAME}.tar.gz'
                 sh 'ls .'
                 sh 'tree .'
-                sh 'echo $NEXUS_CREDS'
-                sh 'curl -v --user $NEXUS_CREDS --upload-file ./corteza-webapp-compose-${GIT_BRANCH}.tar.gz https://nexus.rabbahsoft.ma/repository/row-repo/corteza-webapp-compose-${GIT_BRANCH}.tar.gz'
+                sh 'curl -v --user $NEXUS_CREDS --upload-file ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz https://nexus.rabbahsoft.ma/repository/row-repo/corteza-webapp-compose-${BRANCH_NAME}.tar.gz'
             }
         }
 
