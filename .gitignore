@@ -18,3 +18,4 @@ coverage
 
 /.act*
 /workflow
+*.gz

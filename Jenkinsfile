@@ -19,9 +19,11 @@ pipeline {
                 NEXUS_CREDS = credentials('nexus-raw-repo-credentials')
             }
             steps {
-                sh 'tar -C dist -czf corteza-webapp-compose-${GIT_BRANCH}.tar.gz dist'
-                sh 'ls dist'
-                sh 'curl -v --user "${NEXUS_CREDS}" --upload-file .dist/corteza-webapp-compose-${GIT_BRANCH}.tar.gz https://nexus.rabbahsoft.ma/repository/row-repo/corteza-webapp-compose-${GIT_BRANCH}.tar.gz'
+                sh 'tar -C $PWD/dist -czf corteza-webapp-compose-${GIT_BRANCH}.tar.gz $PWD/dist'
+                sh 'ls .'
+                sh 'tree .'
+                sh 'echo ${NEXUS_CREDS}'
+                sh 'curl -v --user ${NEXUS_CREDS} --upload-file ./corteza-webapp-compose-${GIT_BRANCH}.tar.gz https://nexus.rabbahsoft.ma/repository/row-repo/corteza-webapp-compose-${GIT_BRANCH}.tar.gz'
             }
         }
 
