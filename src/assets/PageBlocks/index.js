@@ -11,3 +11,4 @@ export const IFrame = require('./IFrame.png')
 export const Metric = require('./Metric.png')
 export const Comment = require('./Comment.png')
 export const Report = require('./Report.png')
+// <<<RS_ADD_NEW_COMPOMENT_EXPORT_IMAGE>>>

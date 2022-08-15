@@ -128,6 +128,7 @@ export default {
           block: new compose.PageBlockSocialFeed(),
           image: images.SocialFeed,
         },
+        // <<<RS_ADD_NEW_COMPOMENT_SELECTORE>>>
       ],
     }
   },

@@ -28,6 +28,7 @@ import CommentBase from './CommentBase'
 import CommentConfigurator from './CommentConfigurator'
 import ReportBase from './Report/Base'
 import ReportConfigurator from './Report/Configurator'
+// <<<RS_ADD_NEW_COMPOMENT_IMPORT_BASE_CONFIGURATOR>>>
 
 /**
  * List of all known page block components
@@ -61,6 +62,7 @@ const Registry = {
   MetricConfigurator,
   CommentBase,
   CommentConfigurator,
+  // <<<RS_ADD_NEW_COMPOMENT_ADD_BASE_CONFIGURATOR>>>
 }
 
 const defaultMode = 'Base'
