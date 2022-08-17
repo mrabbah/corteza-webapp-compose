@@ -24,8 +24,8 @@ pipeline {
                  sh 'rm -fr corteza-js'
                  sh 'git clone --branch ${BRANCH_NAME} https://github.com/mrabbah/corteza-js.git'
                  sh 'ls -la'
-                 sh 'ls -la corteza-maps-block-${BRANCH_NAME}/'
-                 sh './add.sh corteza-maps-block-${BRANCH_NAME}'
+                 sh 'ls -la corteza-maps-block/'
+                 sh './add.sh corteza-maps-block'
                  sh 'git status'
 
             }
