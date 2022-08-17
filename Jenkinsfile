@@ -26,7 +26,7 @@ pipeline {
                  sh 'ls -la corteza-maps-block/'
                  sh './add.sh corteza-maps-block  corteza-js/ ./'
                  sh 'cd corteza-js && yarn install && yarn build && cd ..'
-                 cd 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
+                 sh 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
                  sh 'git status'
 
             }
