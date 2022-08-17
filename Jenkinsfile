@@ -8,8 +8,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-              sh 'ls'
-                // sh 'yarn install'
+                sh 'yarn install'
                 // sh 'yarn test:unit'
             }
         }
@@ -25,7 +24,10 @@ pipeline {
                  sh 'git clone --branch ${BRANCH_NAME} https://github.com/mrabbah/corteza-js.git'
                  sh 'ls -la'
                  sh 'ls -la corteza-maps-block/'
-                 sh './add.sh corteza-maps-block'
+                 sh './add.sh corteza-maps-block  corteza-js/ ./'
+                 sh './add.sh corteza-maps-block  corteza-js/ ./'
+                 cd 'cd corteza-js && yarn install && yarn build && cd ..'
+                 cd 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
                  sh 'git status'
 
             }
@@ -34,8 +36,8 @@ pipeline {
         }
         stage('Build') {
             steps {
-              sh 'ls'
-                // sh 'yarn build'
+              // sh 'ls'
+              sh 'yarn build'
             }
         }
         stage('Publish') {
@@ -44,8 +46,8 @@ pipeline {
             }
             steps {
               sh 'ls'
-                // sh 'tar -C $PWD/dist -czf corteza-webapp-compose-${BRANCH_NAME}.tar.gz $PWD/dist'
-                // sh 'curl -v --user $NEXUS_CREDS --upload-file ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz https://nexus.rabbahsoft.ma/repository/row-repo/corteza-webapp-compose-${BRANCH_NAME}.tar.gz'
+                sh 'tar -C $PWD/dist -czf corteza-webapp-compose-${BRANCH_NAME}.tar.gz $PWD/dist'
+                sh 'curl -v --user $NEXUS_CREDS --upload-file ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz https://nexus.rabbahsoft.ma/repository/row-repo/corteza-webapp-compose-${BRANCH_NAME}.tar.gz'
             }
         }
 
