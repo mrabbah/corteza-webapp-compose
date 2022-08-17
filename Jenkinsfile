@@ -14,6 +14,9 @@ pipeline {
             }
         }
         stage('build_composant') {
+          environment {
+                NEXUS_CREDS = credentials('nexus-credentials')
+            }
             steps {
                  sh 'curl -v --user $NEXUS_CREDS https://nexus.rabbahsoft.ma/repository/row-repo/corteza-maps-block-${BRANCH_NAME}.tar.gz'
                   sh 'git clone --branch ${BRANCH_NAME} https://github.com/mrabbah/corteza-js.git'
