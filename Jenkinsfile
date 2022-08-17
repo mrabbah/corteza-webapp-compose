@@ -20,6 +20,7 @@ pipeline {
             steps {
                  sh 'curl -o corteza-maps-block-${BRANCH_NAME}.tar.gz -v --user $NEXUS_CREDS https://nexus.rabbahsoft.ma/repository/row-repo/corteza-maps-block-${BRANCH_NAME}.tar.gz'
                  sh 'tar -xf corteza-maps-block-${BRANCH_NAME}.tar.gz  '
+                 sh 'rm -fr corteza-js'
                  sh 'git clone --branch ${BRANCH_NAME} https://github.com/mrabbah/corteza-js.git'
                  sh 'ls -la'
             }
