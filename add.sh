@@ -7,6 +7,12 @@ function prop {
 }
 
 
+function replaceA {
+    sed  -i 's#${1}#${2}#g' ${3}
+}
+
+
+
 COMP_PATH=${1}
 COMP_NAME=$( prop 'compoment.name' ${COMP_PATH} )
 COMP_NAME_CAP=${COMP_NAME^}
@@ -19,6 +25,7 @@ PAGE_BLOCK_COMP_NAME_CAP="PageBlock"$COMP_NAME_CAP
 
 COMP_NAME_CAP_BASE="${COMP_NAME_CAP}Base"
 COMP_NAME_CAP_CONFIGURATOR="${COMP_NAME_CAP}Configurator"
+COMP_NAME_CAP_COMPONENT="${COMP_NAME_CAP}Compoments"
 
 
 
@@ -48,9 +55,11 @@ sed -i "s#// <<<RS_ADD_NEW_COMPOMENT_EXPORT_IMAGE>>>#// <<<RS_ADD_NEW_COMPOMENT_
 
 echo "cpoy Compoment.vue to ./corteza-webapp-compose/src/components/PageBlocks/"
 cp $COMP_PATH/Component.vue $CORTEZA_COMPOSE_PATH/src/components/PageBlocks/$COMP_NAME_CAP"Base.vue"
+sed -i "s#childCompoments#$COMP_NAME_CAP_COMPONENT#g" $CORTEZA_COMPOSE_PATH/src/components/PageBlocks/$COMP_NAME_CAP"Base.vue"
 
 echo "cpoy ComponentCongiguration.vue to ./corteza-webapp-compose/src/components/PageBlocks/"
 cp $COMP_PATH/ComponentCongiguration.vue $CORTEZA_COMPOSE_PATH/src/components/PageBlocks/$COMP_NAME_CAP"Configurator.vue"
+sed -i "s#childCompoments#$COMP_NAME_CAP_COMPONENT#g" $CORTEZA_COMPOSE_PATH/src/components/PageBlocks/$COMP_NAME_CAP"Configurator.vue"
 
 echo "cpoy childCompoments to ./corteza-webapp-compose/src/components/PageBlocks/"
 mkdir   $CORTEZA_COMPOSE_PATH/src/components/PageBlocks/$COMP_NAME_CAP"Compoments"
@@ -76,13 +85,3 @@ sed -i "s#  // <<<RS_ADD_NEW_COMPOMENT_SELECTORE>>>#  // <<<RS_ADD_NEW_COMPOMENT
 
 
 echo "-------corteza-webapp-compose---------"
-
-
-
-
-
-
-
-
-
-
