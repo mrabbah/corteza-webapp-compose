@@ -26,6 +26,7 @@ pipeline {
               sh 'tar  -xf corteza-blocks/corteza-maps-block-${BRANCH_NAME}.tar.gz  '
               sh 'git clone --branch ${BRANCH_NAME} https://github.com/mrabbah/corteza-js.git'
               sh './add.sh corteza-blocks/corteza-maps-block  corteza-js/ ./'
+              sh './add.sh corteza-blocks/corteza-helloworld-block  corteza-js/ ./'
               sh 'cd corteza-js && yarn install && yarn build && cd ..'
               sh 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
             }
