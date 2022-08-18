@@ -22,9 +22,9 @@ pipeline {
               sh 'mkdir corteza-blocks '
               sh 'curl -o corteza-blocks/corteza-maps-block-${BRANCH_NAME}.tar.gz -v --user $NEXUS_CREDS https://nexus.rabbahsoft.ma/repository/row-repo/corteza-maps-block-${BRANCH_NAME}.tar.gz'
               sh 'tar  -xf corteza-blocks/corteza-maps-block-${BRANCH_NAME}.tar.gz  '
-              sh 'rm -fr corteza-maps-block-${BRANCH_NAME}.tar.gz'
+              sh 'rm -fr corteza-blocks/corteza-maps-block-${BRANCH_NAME}.tar.gz'
               sh 'git clone --branch ${BRANCH_NAME} https://github.com/mrabbah/corteza-js.git'
-              sh './add.sh corteza-maps-block  corteza-js/ ./'
+              sh './add.sh corteza-blocks/corteza-maps-block  corteza-js/ ./'
               sh 'cd corteza-js && yarn install && yarn build && cd ..'
               sh 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
             }
