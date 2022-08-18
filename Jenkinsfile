@@ -17,25 +17,21 @@ pipeline {
                 NEXUS_CREDS = credentials('nexus-credentials')
             }
             steps {
-                 sh 'curl -o corteza-maps-block-${BRANCH_NAME}.tar.gz -v --user $NEXUS_CREDS https://nexus.rabbahsoft.ma/repository/row-repo/corteza-maps-block-${BRANCH_NAME}.tar.gz'
-                 sh 'tar -xf corteza-maps-block-${BRANCH_NAME}.tar.gz  '
-                 sh 'rm -fr corteza-maps-block-${BRANCH_NAME}.tar.gz'
-                 sh 'rm -fr corteza-js'
-                 sh 'git clone --branch ${BRANCH_NAME} https://github.com/mrabbah/corteza-js.git'
-                 sh 'ls -la'
-                 sh 'ls -la corteza-maps-block/'
-                 sh './add.sh corteza-maps-block  corteza-js/ ./'
-                 sh 'cd corteza-js && yarn install && yarn build && cd ..'
-                 sh 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
-                 sh 'git status'
-
+              sh 'rm -fr corteza-blocks/'
+              sh 'rm -fr corteza-js'
+              sh 'curl -o corteza-blocks/corteza-maps-block-${BRANCH_NAME}.tar.gz -v --user $NEXUS_CREDS https://nexus.rabbahsoft.ma/repository/row-repo/corteza-maps-block-${BRANCH_NAME}.tar.gz'
+              sh 'tar -xf corteza-maps-block-${BRANCH_NAME}.tar.gz  '
+              sh 'rm -fr corteza-maps-block-${BRANCH_NAME}.tar.gz'
+              sh 'git clone --branch ${BRANCH_NAME} https://github.com/mrabbah/corteza-js.git'
+              sh './add.sh corteza-maps-block  corteza-js/ ./'
+              sh 'cd corteza-js && yarn install && yarn build && cd ..'
+              sh 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
             }
 
 
         }
         stage('Build') {
             steps {
-              // sh 'ls'
               sh 'yarn build'
             }
         }
@@ -44,9 +40,8 @@ pipeline {
                 NEXUS_CREDS = credentials('nexus-credentials')
             }
             steps {
-              sh 'ls'
-                sh 'tar -C $PWD/dist -czf corteza-webapp-compose-${BRANCH_NAME}.tar.gz $PWD/dist'
-                sh 'curl -v --user $NEXUS_CREDS --upload-file ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz https://nexus.rabbahsoft.ma/repository/row-repo/corteza-webapp-compose-${BRANCH_NAME}.tar.gz'
+              sh 'tar -C $PWD/dist -czf corteza-webapp-compose-${BRANCH_NAME}.tar.gz $PWD/dist'
+              sh 'curl -v --user $NEXUS_CREDS --upload-file ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz https://nexus.rabbahsoft.ma/repository/row-repo/corteza-webapp-compose-${BRANCH_NAME}.tar.gz'
             }
         }
 
