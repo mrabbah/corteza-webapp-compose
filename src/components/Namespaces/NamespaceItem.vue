@@ -71,11 +71,19 @@
         >
           {{ $t('general:label.edit') }}
         </b-button>
+        <b-button
+          variant="light"
+          class="d-flex align-items-center justify-content-center ml-md-1"
+          @click="onExportClick(namespace.slug)"
+        >
+          Export
+        </b-button>
       </b-button-group>
     </b-card-footer>
   </b-card>
 </template>
 <script>
+import { automation } from '@cortezaproject/corteza-js'
 
 export default {
   i18nOptions: {
@@ -112,6 +120,48 @@ export default {
 
     logo () {
       return this.namespace.meta.logo || this.$Settings.attachment('ui.mainLogo')
+    },
+  },
+
+  methods: {
+    onExportClick (namespaceID) {
+      const downloadWorkflow = this.getDownloadWorkflow()
+      const input = automation.Encode({ namespace: namespaceID })
+
+      downloadWorkflow.then((dw) => {
+        const { workflowID, stepID } = dw
+
+        this.$AutomationAPI.workflowExec({ workflowID, stepID, input })
+          .then(() => {
+            setTimeout(() => {
+              this.$store.dispatch('wfPrompts/update')
+            }, 500)
+          })
+          .catch(this.toastErrorHandler(this.$t('notification:automation.scriptFailed')))
+          .finally(() => {
+            this.processing = false
+          })
+      })
+    },
+
+    async getDownloadWorkflow () {
+      const triggerList = await this.$AutomationAPI.triggerList({ eventType: 'onManual' })
+        .then(({ set } = {}) => {
+          return set.map(({ triggerID, workflowID, resourceType, stepID }) => ({ triggerID, workflowID, resourceType, stepID }))
+        })
+        .catch(err => {
+          console.error(err)
+        })
+
+      const workflowIDs = triggerList.map(({ workflowID }) => workflowID)
+
+      const workflowList = await this.$AutomationAPI.workflowList({ workflowIDs })
+        .then(({ set } = {}) => {
+          const downloadWorkflow = set.filter(({ handle }) => handle === 'test_wf')
+          return downloadWorkflow[0]
+        })
+
+      return triggerList.filter(({ workflowID }) => workflowID === workflowList.workflowID)[0]
     },
   },
 }
