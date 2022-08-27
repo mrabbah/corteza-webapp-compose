@@ -182,7 +182,7 @@ export default {
   data () {
     return {
       // put holder
-      namespace: 'crm',
+      namespace: 'namespace_to_export',
 
       query: '',
     }

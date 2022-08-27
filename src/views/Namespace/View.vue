@@ -61,7 +61,7 @@ export default {
       required: false,
       type: String,
       // put holder
-      default: 'crm',
+      default: 'namespace_to_export',
     },
   },
 
