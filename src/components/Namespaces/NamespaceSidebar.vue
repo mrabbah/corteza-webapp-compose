@@ -1,7 +1,7 @@
 <template>
   <div>
-    <portal to="sidebar-header-expanded">
-      <vue-select
+    <!-- <portal to="sidebar-header-expanded">
+       <vue-select
         v-if="!hideNamespaceList"
         key="namespaceID"
         label="name"
@@ -22,7 +22,7 @@
           </router-link>
         </template>
       </vue-select>
-    </portal>
+    </portal> -->
 
     <portal
       to="sidebar-body-expanded"
@@ -31,7 +31,7 @@
         v-if="namespace"
         class="d-flex flex-column flex-grow-1"
       >
-        <b-button
+        <!-- <b-button
           v-if="isAdminPage"
           data-test-id="button-public"
           variant="light"
@@ -49,7 +49,7 @@
           :to="{ name: 'admin.modules', params: { slug: namespace.slug } }"
         >
           {{ $t('adminPanel') }}
-        </b-button>
+        </b-button> -->
 
         <b-input
           v-model.trim="query"
@@ -181,7 +181,8 @@ export default {
 
   data () {
     return {
-      namespace: undefined,
+      // put holder
+      namespace: 'crm',
 
       query: '',
     }
@@ -300,7 +301,7 @@ export default {
     '$route.params.slug': {
       immediate: true,
       handler (slug = '') {
-        this.namespace = slug ? this.namespaces.find(n => n.slug === slug) : undefined
+       // this.namespace = slug ? this.namespaces.find(n => n.slug === slug) : undefined
         this.query = ''
       },
     },

@@ -58,8 +58,10 @@ export default {
 
   props: {
     slug: {
-      required: true,
+      required: false,
       type: String,
+      // put holder
+      default: 'crm',
     },
   },
 

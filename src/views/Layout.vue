@@ -22,9 +22,9 @@
           <portal-target name="topbar-title" />
         </template>
 
-        <template #tools>
+        <!-- <template #tools>
           <portal-target name="topbar-tools" />
-        </template>
+        </template> -->
 
         <template #avatar-dropdown>
           <portal-target name="topbar-avatar-dropdown" />
