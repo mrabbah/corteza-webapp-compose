@@ -74,7 +74,7 @@
         <b-button
           variant="light"
           class="d-flex align-items-center justify-content-center ml-md-1"
-          @click="onExportClick(namespace.slug)"
+          @click="onExportClick(namespace)"
         >
           Export
         </b-button>
