@@ -76,7 +76,7 @@
           class="d-flex align-items-center justify-content-center ml-md-1"
           @click="onExportClick(namespace)"
         >
-          Export
+          Download source code
         </b-button>
       </b-button-group>
     </b-card-footer>
@@ -128,6 +128,7 @@ export default {
       const downloadWorkflow = this.getDownloadWorkflow()
       const input = automation.Encode({ namespace: namespaceID })
 
+      this.processing = true
       downloadWorkflow.then((dw) => {
         const { workflowID, stepID } = dw
 
