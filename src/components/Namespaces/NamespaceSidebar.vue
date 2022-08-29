@@ -1,28 +1,5 @@
 <template>
   <div>
-    <!-- <portal to="sidebar-header-expanded">
-       <vue-select
-        v-if="!hideNamespaceList"
-        key="namespaceID"
-        label="name"
-        class="namespace-selector sticky-top bg-white mt-2"
-        :clearable="false"
-        :options="truncatedNamespaces"
-        :value="namespace"
-        :placeholder="$t('pickNamespace')"
-        @option:selected="namespaceSelected"
-      >
-        <template #list-footer>
-          <router-link
-            v-if="!hideNamespaceListLink"
-            :to="{ name: 'namespace.list' }"
-            class="d-block mt-3 ml-3 mb-1 font-weight-bold"
-          >
-            {{ $t('namespaceList') }}
-          </router-link>
-        </template>
-      </vue-select>
-    </portal> -->
 
     <portal
       to="sidebar-body-expanded"
