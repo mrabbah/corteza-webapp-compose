@@ -35,7 +35,7 @@ pipeline {
               sh 'cd corteza-blocks && ls && for f in *.tar.gz; do tar xf "$f"; done && rm -fr *.tar.gz && ls && cd ..'
               sh 'git clone --branch ${BRANCH_NAME} https://github.com/mrabbah/corteza-js.git'
               sh 'mc --config-dir /tmp/.mc cp minio/corteza-artifacts-public/corteza-block-scripts-${BRANCH_NAME}.tar.gz  . && tar xf corteza-block-scripts-${BRANCH_NAME}.tar.gz && rm -f corteza-block-scripts-${BRANCH_NAME}.tar.gz'
-              sh 'pwd && for f in corteza-blocks/* ; do echo "$f" && echo $( $f | sed -e "s/corteza-//g" | sed -e "s/-block//g") && ./corteza-block-scripts/bin/patch.sh "$f"  corteza-js/ ./ $( $f | sed -e "s/corteza-//g" | sed -e "s/-block//g"); done'
+              sh 'pwd && for f in corteza-blocks/* ; do echo "$f" && echo $(basename $f | sed -e "s/corteza-//g" | sed -e "s/-block//g") && ./corteza-block-scripts/bin/patch.sh "$f"  corteza-js/ ./ $( basename $f | sed -e "s/corteza-//g" | sed -e "s/-block//g"); done'
               sh 'git status'
              }
 
