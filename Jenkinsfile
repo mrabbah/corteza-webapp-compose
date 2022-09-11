@@ -52,7 +52,7 @@ pipeline {
               sh 'cd corteza-js && yarn install && yarn build && cd ..'
               sh 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
               sh 'rm -fr corteza-blocks/ && rm -fr corteza-js && rm -fr corteza-block-scripts'
-              sh 'yarn build'
+              //sh 'yarn build'
             }
         }
         stage('Publish') {
@@ -63,8 +63,9 @@ pipeline {
                 }
             }
             steps {
-              sh 'cd dist && tar -czf ../corteza-webapp-compose-${BRANCH_NAME}.tar.gz . && ls '
-              sh 'ls && mc --config-dir /tmp/.mc cp ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz minio/corteza-artifacts'
+              sh 'mc --config-dir /tmp/.mc alias ls'
+              sh 'cd dist && tar -czf ../corteza-webapp-compose-${BRANCH_NAME}.tar.gz .'
+              sh 'ls -l && pwd && cd .. && pwd && mc --config-dir /tmp/.mc cp ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz minio/corteza-artifacts'
             }
         }
 
