@@ -22,7 +22,7 @@ pipeline {
         stage('Prepare') {
             agent {
                 docker {
-                    image 'mrabbah/mc:latest'
+                    image 'mrabbah/mc:1.1'
                     reuseNode true
                 }
             }
@@ -57,7 +57,7 @@ pipeline {
         stage('Publish') {
             agent {
                 docker {
-                    image 'mrabbah/mc:latest'
+                    image 'mrabbah/mc:1.1'
                     reuseNode true
                 }
             }
