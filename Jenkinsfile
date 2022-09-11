@@ -1,18 +1,23 @@
 pipeline {
-    agent {
-        docker { image 'node:16.16.0' }
-    }
+    agent any
+
     environment {
         BRANCH_NAME = "${GIT_BRANCH.split('/').size() > 1 ? GIT_BRANCH.split('/')[1..-1].join('/') : GIT_BRANCH}"
     }
     stages {
         stage('Test') {
+            agent {
+                docker {
+                  image 'node:16.16.0'
+                  reuseNode true
+                }
+            }
             steps {
                 sh 'yarn install'
                 sh 'yarn test:unit'
             }
         }
-        stage('build_composant') {
+        stage('Prepare') {
             agent {
                 docker {
                     image 'mrabbah/mc:latest'
@@ -37,6 +42,12 @@ pipeline {
 
         }
         stage('Build') {
+            agent {
+                docker {
+                  image 'node:16.16.0'
+                  reuseNode true
+                }
+            }
             steps {
               sh 'yarn build'
             }
