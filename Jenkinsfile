@@ -15,6 +15,7 @@ pipeline {
                 }
             }
             steps {
+                sh 'git reset --hard  && git clean -fdx'
                 sh 'yarn install'
                 sh 'yarn test:unit'
             }
