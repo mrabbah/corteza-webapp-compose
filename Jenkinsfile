@@ -15,7 +15,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'git reset --hard  && git clean -fdx --exclude="/node_modules/"'
+                //sh 'git reset --hard  && git clean -fdx --exclude="/node_modules/"'
                 sh 'yarn install'
                 sh 'yarn test:unit'
             }
@@ -63,8 +63,8 @@ pipeline {
                 }
             }
             steps {
-              sh 'cd dist && tar -czf ../corteza-webapp-compose-${BRANCH_NAME}.tar.gz . && cd ..'
-              sh 'mc --config-dir /tmp/.mc cp ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz minio/corteza-artifacts'
+              sh 'cd dist && tar -czf ../corteza-webapp-compose-${BRANCH_NAME}.tar.gz . && ls '
+              sh 'ls && mc --config-dir /tmp/.mc cp ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz minio/corteza-artifacts'
             }
         }
 
