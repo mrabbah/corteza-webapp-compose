@@ -63,9 +63,9 @@ pipeline {
                 }
             }
             steps {
-              sh 'mc --config-dir /tmp/.mc alias ls'
+              sh 'mc --config-dir /tmp/.mc alias set minio $MINIO_HOST $MINIO_CREDS_USR $MINIO_CREDS_PSW'
               sh 'cd dist && tar -czf ../corteza-webapp-compose-${BRANCH_NAME}.tar.gz .'
-              sh 'ls -l && pwd && cd .. && pwd && mc --config-dir /tmp/.mc cp ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz minio/corteza-artifacts'
+              sh 'mc --config-dir /tmp/.mc cp ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz minio/corteza-artifacts'
             }
         }
 
