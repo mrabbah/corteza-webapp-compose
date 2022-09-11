@@ -36,9 +36,6 @@ pipeline {
               sh 'mc --config-dir /tmp/.mc cp minio/corteza-artifacts-public/corteza-block-scripts-${BRANCH_NAME}.tar.gz  . && tar xf corteza-block-scripts-${BRANCH_NAME}.tar.gz && rm -f corteza-block-scripts-${BRANCH_NAME}.tar.gz'
               sh 'for f in corteza-blocks/* ; do ./corteza-block-scripts/bin/patch.sh "$f"  corteza-js/ ./ $( $f | sed -e "s/corteza-//g" | sed -e "s/-block//g"); done'
               sh 'git status'
-              sh 'cd corteza-js && yarn install && yarn build && cd ..'
-              sh 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
-              sh 'rm -fr corteza-blocks/ && rm -fr corteza-js && rm -fr corteza-block-scripts'
              }
 
 
@@ -51,6 +48,9 @@ pipeline {
                 }
             }
             steps {
+              sh 'cd corteza-js && yarn install && yarn build && cd ..'
+              sh 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
+              sh 'rm -fr corteza-blocks/ && rm -fr corteza-js && rm -fr corteza-block-scripts'
               sh 'yarn build'
             }
         }
