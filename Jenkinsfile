@@ -35,7 +35,6 @@ pipeline {
                 sh 'ls ./corteza-webapp-compose-patch'
                 sh 'ls ./corteza-webapp-compose-patch/corteza-webapp-compose-patch/'
                 sh 'ls && cp -R ./corteza-webapp-compose-patch/corteza-webapp-compose-patch/* ./src'
-                sh 'ls /corteza-webapp-compose-patch/corteza-webapp-compose-patch/'
             }
         }
         stage('Prepare') {
