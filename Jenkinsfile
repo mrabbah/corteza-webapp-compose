@@ -28,14 +28,14 @@ pipeline {
                 }
             }
             steps {
-                sh 'rm -fr corteza-web-compose-patch && mkdir corteza-web-compose-patch'
+                sh 'rm -fr corteza-webapp-compose-patch && mkdir corteza-webapp-compose-patch'
                 sh 'mc --config-dir /tmp/.mc alias set minio $MINIO_HOST $MINIO_CREDS_USR $MINIO_CREDS_PSW'
-                sh 'mc --config-dir /tmp/.mc cp minio/corteza-artifacts/corteza-webapp-compose-patch-${BRANCH_NAME}.tar.gz ./corteza-web-compose-patch '
-                sh 'cd corteza-web-compose-patch && ls &&  tar xf corteza-webapp-compose-patch-${BRANCH_NAME}.tar.gz && rm -fr *.tar.gz && ls && cd ..'
-                sh 'ls ./corteza-web-compose-patch'
-                sh 'ls ./corteza-web-compose-patch/corteza-web-compose-patch/'
-                sh 'ls && cp -R ./corteza-web-compose-patch/corteza-web-compose-patch/* ./src'
-                sh 'ls /corteza-web-compose-patch/corteza-web-compose-patch/'
+                sh 'mc --config-dir /tmp/.mc cp minio/corteza-artifacts/corteza-webapp-compose-patch-${BRANCH_NAME}.tar.gz ./corteza-webapp-compose-patch '
+                sh 'cd corteza-webapp-compose-patch && ls &&  tar xf corteza-webapp-compose-patch-${BRANCH_NAME}.tar.gz && rm -fr *.tar.gz && ls && cd ..'
+                sh 'ls ./corteza-webapp-compose-patch'
+                sh 'ls ./corteza-webapp-compose-patch/corteza-webapp-compose-patch/'
+                sh 'ls && cp -R ./corteza-webapp-compose-patch/corteza-webapp-compose-patch/* ./src'
+                sh 'ls /corteza-webapp-compose-patch/corteza-webapp-compose-patch/'
             }
         }
         stage('Prepare') {
