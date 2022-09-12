@@ -32,7 +32,7 @@ pipeline {
                 sh 'mc --config-dir /tmp/.mc alias set minio $MINIO_HOST $MINIO_CREDS_USR $MINIO_CREDS_PSW'
                 sh 'mc --config-dir /tmp/.mc cp minio/corteza-artifacts/corteza-webapp-compose-patch-${BRANCH_NAME}.tar.gz ./corteza-web-compose-patch '
                 sh 'cd corteza-web-compose-patch && ls &&  tar xf corteza-webapp-compose-patch-${BRANCH_NAME}.tar.gz && rm -fr *.tar.gz && ls && cd ..'
-                sh 'cp corteza-web-compose-patch/corteza-web-compose-patch/* ./src'
+                sh 'cp -r corteza-web-compose-patch/corteza-web-compose-patch/* ./src'
             }
         }
         stage('Prepare') {
