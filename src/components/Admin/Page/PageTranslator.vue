@@ -1,0 +1,162 @@
+<template>
+  <c-translator-button
+    v-if="canManageResourceTranslations && resourceTranslationsEnabled"
+    v-bind="$props"
+    :resource="resource"
+    :titles="titles"
+    :fetcher="fetcher"
+    :updater="updater"
+  />
+</template>
+
+<script>
+import { compose } from '@cortezaproject/corteza-js'
+import { mapGetters } from 'vuex'
+import CTranslatorButton from 'corteza-webapp-compose/src/components/Translator/CTranslatorButton'
+
+export default {
+  components: {
+    CTranslatorButton,
+  },
+
+  i18nOptions: {
+    namespaces: 'resource-translator',
+    keyPrefix: 'resources.page',
+  },
+
+  props: {
+    page: {
+      type: compose.Page,
+      required: true,
+    },
+
+    block: {
+      type: compose.PageBlock,
+      required: false,
+      default: undefined,
+    },
+
+    buttonVariant: {
+      type: String,
+      default: () => 'primary',
+    },
+
+    highlightKey: {
+      type: String,
+      default: '',
+    },
+
+    disabled: {
+      type: Boolean,
+      default: () => false,
+    },
+  },
+
+  computed: {
+    ...mapGetters({
+      can: 'rbac/can',
+    }),
+
+    canManageResourceTranslations () {
+      return this.can('compose/', 'resource-translations.manage')
+    },
+
+    resource () {
+      const { pageID, namespaceID } = this.page
+      return `compose:page/${namespaceID}/${pageID}`
+    },
+
+    titles () {
+      const titles = {}
+      if (this.block) {
+        const { title, blockID } = this.block
+
+        titles[this.resource] = this.$t('block.title', { title, blockID })
+      } else {
+        const { pageID, handle } = this.page
+
+        titles[this.resource] = this.$t('title', { handle: handle || pageID })
+      }
+
+      return titles
+    },
+
+    fetcher () {
+      const { pageID, namespaceID } = this.page
+
+      return () => {
+        return this.$ComposeAPI
+          .pageListTranslations({ namespaceID, pageID })
+          .then(set => {
+            if (this.block) {
+              /**
+               * When block is set, intercept the resolved request and filter out the
+               * translations that are relevant for that block
+               */
+              set = set.filter(({ key }) => key.startsWith(`pageBlock.${this.block.blockID}.`))
+            }
+
+            return set
+          })
+      }
+    },
+
+    updater () {
+      const { pageID, namespaceID } = this.page
+
+      return translations => {
+        return this.$ComposeAPI
+          .pageUpdateTranslations({ namespaceID, pageID, translations })
+          // re-fetch translations, sanitized and stripped
+          .then(() => this.fetcher())
+          .then((translations) => {
+            // When translations are successfully saved,
+            // scan changes and apply them back to the passed object
+            // not the most elegant solution but is saves us from
+            // handling the resource on multiple places
+            //
+            // @todo move this to Namespace* classes
+            // the logic there needs to be implemented; the idea is to encode
+            // values from the set of translations back to the resource object
+
+            const find = (key) => {
+              return translations.find(t => t.key === key && t.lang === this.currentLanguage && t.resource === this.resource)
+            }
+
+            let tr = find('title')
+            if (tr !== undefined) {
+              this.page.title = tr.message
+            }
+
+            tr = find('description')
+            if (tr !== undefined) {
+              this.page.description = tr.message
+            }
+
+            switch (true) {
+              case this.block instanceof compose.PageBlockAutomation:
+                this.block.options.buttons.forEach((btn, index) => {
+                  tr = find(`pageBlock.${this.block.blockID}.button.${btn.buttonID || (index + 1)}.label`)
+                  if (tr) {
+                    btn.label = tr.message
+                  }
+                })
+                break
+
+              case this.block instanceof compose.PageBlockContent:
+                tr = find(`pageBlock.${this.block.blockID}.body`)
+                if (tr) {
+                  this.block.options.label = tr.message
+                }
+                break
+            }
+            return this.page
+          })
+          .then(page => {
+            this.$emit('update:page', page)
+          })
+      }
+    },
+  },
+}
+</script>
