@@ -103,19 +103,20 @@ pipeline {
             }
         }
 
-        // stage('Deploy') {
+        stage('Deploy') {
 
-        //     steps {
-        //         script {
-        //             sh 'curl -LO "https://dl.k8s.io/release/v1.24.0/bin/linux/amd64/kubectl"'
-        //             sh 'chmod u+x ./kubectl'
-        //             withKubeConfig([credentialsId: 'k8s-token', serverUrl: 'https://rancher.rabbahsoft.ma/k8s/clusters/c-m-6mdv2kbw']) {
-        //                 sh './kubectl apply -f k8s/deployment-dev.yml'
-        //             }
-        //         }
+            steps {
+                script {
+                    sh 'sed -i "s/TAG_NAME/${BRANCH_NAME}/g" ./k8s/deployment-dev.yml'
+                    sh 'curl -LO "https://dl.k8s.io/release/v1.24.0/bin/linux/amd64/kubectl"'
+                    sh 'chmod u+x ./kubectl'
+                    withKubeConfig([credentialsId: 'k8s-token', serverUrl: 'https://rancher.rabbahsoft.ma/k8s/clusters/c-m-6mdv2kbw']) {
+                        sh './kubectl apply -f k8s/deployment-dev.yml'
+                    }
+                }
 
-        //     }
-        // }
+            }
+        }
     }
     post {
         always {
