@@ -37,10 +37,12 @@ else
 
   sed -i "s|{{BASE_PATH}}|$BASE_PATH|g" /etc/nginx/nginx.conf
 
- export BASE_PATH_WIDTHOUT_SLASH=$(echo "$BASE_PATH" | sed "s|/||g")
+  export BASE_PATH_WIDTHOUT_SLASH=$(echo "$BASE_PATH" | sed "s|/||g")
 
- mkdir /usr/share/nginx/html/$BASE_PATH_WIDTHOUT_SLASH
- cp -R /usr/share/nginx/html/*  /usr/share/nginx/html/$BASE_PATH_WIDTHOUT_SLASH/
+  mv /usr/share/nginx/html /usr/share/nginx/_html
+
+  mkdir -p /usr/share/nginx/html/$BASE_PATH_WIDTHOUT_SLASH
+  cp -R /usr/share/nginx/_html/*  /usr/share/nginx/html/$BASE_PATH_WIDTHOUT_SLASH/
 
 
 
