@@ -83,6 +83,43 @@ pipeline {
               sh 'mc --config-dir /tmp/.mc cp ./corteza-webapp-compose-${BRANCH_NAME}.tar.gz minio/corteza-artifacts'
             }
         }
+        stage('Build Docker image') {
+            
+            steps {
+                sh 'docker build -t mrabbah/corteza-webapp-compose:${BRANCH_NAME} --build-arg VERSION=${BRANCH_NAME} . '
+            }
+        }
+        
+        stage('Push Docker image') {
+            
+            steps {
+                echo 'Pushing docker image'
+                script {
+                    sh 'echo $DOCKERHUB_CREDS_PSW | docker login -u $DOCKERHUB_CREDS_USR --password-stdin'    
+                    sh 'docker push mrabbah/corteza-webapp-compose:${BRANCH_NAME}'           
+                }
+                
+            }
+        }
 
+        // stage('Deploy') {
+            
+        //     steps {
+        //         script {
+        //             sh 'curl -LO "https://dl.k8s.io/release/v1.24.0/bin/linux/amd64/kubectl"' 
+        //             sh 'chmod u+x ./kubectl'  
+        //             withKubeConfig([credentialsId: 'k8s-token', serverUrl: 'https://rancher.rabbahsoft.ma/k8s/clusters/c-m-6mdv2kbw']) {
+        //                 sh './kubectl apply -f k8s/deployment-dev.yml'
+        //             }           
+        //         }
+                
+        //     }
+        // }
     }
+    post {
+        always {
+            sh 'docker logout'
+        }
+    }
+
 }
