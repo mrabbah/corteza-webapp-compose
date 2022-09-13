@@ -36,7 +36,7 @@ spec:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /config.js
+              path: /compose/config.js
               port: 80
               scheme: HTTP
             periodSeconds: 10
@@ -45,7 +45,7 @@ spec:
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /config.js
+              path: /compose/config.js
               port: 80
               scheme: HTTP
             periodSeconds: 10
@@ -54,7 +54,7 @@ spec:
           startupProbe:
             failureThreshold: 3
             httpGet:
-              path: /config.js
+              path: /compose/config.js
               port: 80
               scheme: HTTP
             initialDelaySeconds: 10
