@@ -15,7 +15,7 @@ pipeline {
                 }
             }
             steps {
-                //sh 'git reset --hard  && git clean -fdx --exclude="/node_modules/"'
+                sh 'git reset --hard  && git clean -fdx --exclude="/node_modules/"'
                 sh 'yarn install'
                 sh 'yarn test:unit'
             }
@@ -52,7 +52,7 @@ pipeline {
               sh 'cd corteza-js && yarn install && yarn build && cd ..'
               sh 'cp -r ./corteza-js/dist/. ./node_modules/@cortezaproject/corteza-js/dist'
               sh 'rm -fr corteza-blocks/ && rm -fr corteza-js && rm -fr corteza-block-scripts'
-              //sh 'yarn build'
+              sh 'yarn build'
             }
         }
         stage('Publish') {
